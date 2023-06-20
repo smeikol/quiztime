@@ -1,0 +1,96 @@
+﻿<Window x:Class="quiztime.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:quiztime"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Background="#FF23212D">
+    <Grid>
+        <Grid x:Name="menu" Visibility="Visible">
+            <Button Content="quiz spelen/nakijken" HorizontalAlignment="Left" Height="33" Margin="297,104,0,0" VerticalAlignment="Top" Width="245" Click="Button_Click"/>
+            <Button Content="quiz maken/bewerken" Margin="269,172,230,217" Click="Button_Click_1"/>
+        </Grid>
+        <Grid x:Name="quizmaker" Visibility="Collapsed">
+
+            <DataGrid ItemsSource="{Binding Source=CQuiz}" x:Name="quiztable" HorizontalAlignment="Center" Height="273" VerticalAlignment="Top" Width="656" AutoGenerateColumns="False" d:ItemsSource="{d:SampleData ItemCount=1}" CanUserAddRows="False" IsEnabled="True" Margin="0,127,0,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Id}" x:Name="quizid" Header="id"/>
+                    <DataGridTextColumn Binding="{Binding Name}" x:Name="quizname" Header="naam"/>
+                    <DataGridTextColumn Binding="{Binding Picture}" x:Name="quizimage" Header="afbeelding"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Tag="{Binding Id}" x:Name="edit" Click="edit_Click">bewerk quiz</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Tag="{Binding Id}" x:Name="delete" Click="delete_Click">verwijder quiz</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Content="voeg nieuwe quiz toe" x:Name="newquiz" HorizontalAlignment="Center" Height="55" Margin="0,28,0,0" VerticalAlignment="Top" Width="270" Click="newquiz_Click"/>
+        </Grid>
+        <Grid x:Name="quizform" Visibility="Collapsed">
+            <TextBox x:Name="quizname1" HorizontalAlignment="Center" Height="54" Margin="0,120,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="292" TextAlignment="Center" FontSize="36"/>
+            <Button Content="upload foto" x:Name="quizimage1" HorizontalAlignment="Center" Height="82" Margin="0,217,0,0" VerticalAlignment="Top" Width="232" Click="quizimage1_Click"/>
+            <Image HorizontalAlignment="Left" Height="126" Margin="107,75,0,0" VerticalAlignment="Top" x:Name="testimg" Width="142"/>
+            <Button Content=">" x:Name="Next" HorizontalAlignment="Left" Height="82" Margin="558,342,0,0" VerticalAlignment="Top" Width="232" Click="Next_Click" />
+
+
+        </Grid>
+        <Grid x:Name="vraagform" SnapsToDevicePixels="True" Visibility="Collapsed" Background="#FFB261E6" d:IsHidden="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+
+            <TextBox x:Name="question" Text="vraag" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="48"/>
+            <Button x:Name="done" Grid.Row="0" Grid.Column="4" Content="opslaan (alleen als dit de laatste vraag is)" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="300" Height="200" Click="done_Click" ></Button>
+            <Image x:Name="ques_image" Source="/images/shutterstock_1109972750-916x458.jpg" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Stretch="Uniform" VerticalAlignment="Center" Width="200" Height="200"/>
+            <Button x:Name="imageupload" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" Width="200" Height="200" Click="imageupload_Click" ></Button>
+            <TextBox x:Name="answer_a" Text="antwoord a" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Background="#FF74E3C6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="32" Margin="10"/>
+            <CheckBox x:Name="good_a" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Height="13" VerticalAlignment="Top" Width="76" FontSize="12" Checked="a_Checked" Foreground="White" Unchecked="a_unChecked">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="16" ScaleY="9" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <TextBox x:Name="answer_b" Text="antwoord b" Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="1" Background="#FF74E3C6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="32" Margin="10"/>
+            <CheckBox x:Name="good_b" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Height="13" VerticalAlignment="Top" Width="76" FontSize="12" Checked="b_Checked" Foreground="White" Unchecked="b_unChecked">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="16" ScaleY="9" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <TextBox x:Name="answer_c" Text="antwoord c" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Background="#FF74E3C6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="32" Margin="10"/>
+            <CheckBox x:Name="good_c" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" Height="13" VerticalAlignment="Top" Width="76" FontSize="12" Checked="c_Checked" Foreground="White" Unchecked="c_unChecked">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="16" ScaleY="9" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <TextBox x:Name="answer_d" Text="antwoord d" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="1" Background="#FF74E3C6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="32" Margin="10"/>
+            <CheckBox x:Name="good_d" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="1" Height="13" VerticalAlignment="Top" Width="76" FontSize="12" Checked="d_Checked" Foreground="White" Unchecked="d_unChecked">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="16" ScaleY="9" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <TextBox x:Name="timer" Text="tijd (in seconden)" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="32" Margin="10"/>
+            <Button Content=">" x:Name="Nextquestion" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="32" Margin="10" Click="Nextquestion_Click" />
+            <Button Content="&lt;" x:Name="previousquestion" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="32" Margin="10" Click="previousquestion_Click" />
+        </Grid>
+    </Grid>
+</Window>
